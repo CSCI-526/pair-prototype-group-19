@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class ScoreManager : MonoBehaviour
@@ -14,8 +15,13 @@ public class ScoreManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI[] leaderboard;
 
+    [SerializeField]
+    private float scoreMultiplier = 1.0f;
+
     // Current game score
     public float score;
+
+    private string scoreString;
 
 
     private float[] highScores = new float[10];
@@ -34,7 +40,11 @@ public class ScoreManager : MonoBehaviour
 
     void Update()
     {
-        //scoreText.text += score;
+        if (GameManager.Instance.isPlaying)
+        {
+            score += Time.fixedDeltaTime * scoreMultiplier;
+            scoreText.text = "Score: " + score.ToString("000000000");
+        }
     }
 
     void openLeaderboard()
