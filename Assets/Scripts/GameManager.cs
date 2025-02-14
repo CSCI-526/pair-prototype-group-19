@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,6 +15,21 @@ public class GameManager : MonoBehaviour
     [Range(0.0f, 1.0f)]
     [Tooltip("The game speed of the whole application (affects anything using Time)")]
     private float gameSpeed = 1.0f;
+    [SerializeField]
+    private GameObject inputPanel;
+
+    [SerializeField]
+    private List<Tile> availableTiles;
+
+    // a list of ints that gets translated to input for the player
+    public List<int> tileInputs = new List<int>();
+
+    private Tile.Direction directions;
+
+    public UnityEvent updateInputs;
+
+    [SerializeField]
+    private bool debugMode = false;
 
     void Awake()
     {
@@ -21,7 +38,7 @@ public class GameManager : MonoBehaviour
         else
         {
             _instance = this;
-            DontDestroyOnLoad(gameObject);
+            DontDestroyOnLoad(this.gameObject);
         }
             
     }
@@ -34,7 +51,56 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (inputPanel == null && SceneManager.GetActiveScene().buildIndex != 0)
+        {
+            inputPanel = GameObject.Find("InputPanel");
+        }
+        if (debugMode)
+        {
+            DebugAddInputs();
+        }
+    }
+
+    public void AddInputs(int dir)
+    {
+        if (Enum.IsDefined(typeof(Tile.Direction), dir))
+        {
+            tileInputs.Add(dir);
+            Debug.Log("Added Input: " + dir);
+            updateInputs.Invoke();
+            //Instantiate(Instance.availableTiles[dir],Instance.inputPanel.transform);
+        }
+    }
+
+    private void DebugAddInputs()
+    {
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            AddInputs(0);
+        }
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            AddInputs(1);
+        }
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            AddInputs(2);
+        }
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            AddInputs(3);
+        }
+    }
+
+    public bool CheckInputs(Tile.Direction dir)
+    {
+        if (tileInputs.Remove((int)dir))
+        {
+            // evoke event
+            updateInputs.Invoke();
+            return true;
+        }
+        return false;
     }
 
     #region Get Functions
@@ -55,6 +121,10 @@ public class GameManager : MonoBehaviour
     public void loadSceneByName(string name)
     {
         SceneManager.LoadScene(name);
+    }
+    public void loadSceneByIndex(int index)
+    {
+        SceneManager.LoadScene(index);
     }
 
     #endregion

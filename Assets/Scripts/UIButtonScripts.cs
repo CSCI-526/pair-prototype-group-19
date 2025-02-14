@@ -6,7 +6,7 @@ public class UIButtonScripts : MonoBehaviour
 {
     public void Play()
     {
-        GameManager.Instance.loadSceneByName("TimTestScene");
+        GameManager.Instance.loadSceneByIndex(1);
     }
 
     public void Pause()
