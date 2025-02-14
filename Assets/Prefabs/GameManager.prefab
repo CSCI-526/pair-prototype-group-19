@@ -51,4 +51,9 @@ MonoBehaviour:
   - {fileID: 5793079343562942129, guid: d50d65bed8a4f324da2d833e48055af6, type: 3}
   - {fileID: 6941406121852925089, guid: e5f7a2f0cf3c884429ff79b2100faaa1, type: 3}
   - {fileID: 7854756181928145103, guid: ee65f89ab911b7e4c83fca2648e453ca, type: 3}
+  tileInputs: 
+  updateInputs:
+    m_PersistentCalls:
+      m_Calls: []
   debugMode: 1
+  isPlaying: 0

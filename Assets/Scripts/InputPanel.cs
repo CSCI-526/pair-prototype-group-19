@@ -12,6 +12,7 @@ public class InputPanel : MonoBehaviour
 
     public void UpdateInputs()
     {
+        Debug.Log("Updating Inputs");
         int total = GameManager.Instance.tileInputs.Count;
         for (int i = 0; i < 12; ++i)
         {

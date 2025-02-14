@@ -31,6 +31,8 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private bool debugMode = false;
 
+    public bool isPlaying = false;
+
     void Awake()
     {
         if (_instance != null && _instance != this)
@@ -40,7 +42,6 @@ public class GameManager : MonoBehaviour
             _instance = this;
             DontDestroyOnLoad(this.gameObject);
         }
-            
     }
 
     private void Start()
@@ -48,9 +49,34 @@ public class GameManager : MonoBehaviour
         Debug.Log("GameManager Initialized");
     }
 
+    void OnPlaySceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (SceneManager.GetActiveScene().buildIndex == 1)
+        {
+            isPlaying = true;
+        }
+        else
+        {
+            isPlaying = false;
+        }
+    }
+
+    void OnEnable()
+    {
+        Debug.Log("OnEnable called");
+        SceneManager.sceneLoaded += OnPlaySceneLoaded;
+    }
+
+    // called when the game is terminated
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnPlaySceneLoaded;
+    }
+
     // Update is called once per frame
     void Update()
     {
+        
         if (inputPanel == null && SceneManager.GetActiveScene().buildIndex != 0)
         {
             inputPanel = GameObject.Find("InputPanel");
@@ -66,9 +92,9 @@ public class GameManager : MonoBehaviour
         if (Enum.IsDefined(typeof(Tile.Direction), dir))
         {
             tileInputs.Add(dir);
-            Debug.Log("Added Input: " + dir);
-            updateInputs.Invoke();
-            //Instantiate(Instance.availableTiles[dir],Instance.inputPanel.transform);
+            //Debug.Log("Added Input: " + dir);
+            //updateInputs.Invoke();
+            inputPanel.GetComponent<InputPanel>().UpdateInputs();
         }
     }
 
@@ -97,7 +123,8 @@ public class GameManager : MonoBehaviour
         if (tileInputs.Remove((int)dir))
         {
             // evoke event
-            updateInputs.Invoke();
+            //updateInputs.Invoke();
+            inputPanel.GetComponent<InputPanel>().UpdateInputs();
             return true;
         }
         return false;

@@ -14,14 +14,20 @@ public class SimplePlayer : MonoBehaviour
     [SerializeField] private bool canDuck = true;
     [SerializeField][Range(0.0f, 5.0f)] private float duckTimer = 1.0f;
 
-    private int currentLane = 0;
+    [SerializeField] private int currentLane = 0;
     private Vector3 targetPosition;
+
+    private Vector3 leftTP;
+    private Vector3 rightTP;
+
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         targetPosition = transform.position;
         rb.useGravity = false;
+        leftTP = new Vector3(-2 * laneWidth, transform.position.y, transform.position.z);
+        rightTP = new Vector3(2 * laneWidth, transform.position.y, transform.position.z);
     }
 
     void Update()
@@ -32,6 +38,10 @@ public class SimplePlayer : MonoBehaviour
     void FixedUpdate()
     {
         rb.AddForce(Vector3.down * gravityMultiplier * 9.81f, ForceMode.Acceleration);
+        leftTP.y = transform.position.y;
+        leftTP.z = transform.position.z;
+        rightTP.y = transform.position.y;
+        rightTP.z = transform.position.z;
         transform.position = new Vector3(Vector3.Lerp(transform.position, targetPosition, Time.fixedDeltaTime * moveTime).x, transform.position.y, transform.position.z);
     }
 
@@ -44,47 +54,72 @@ public class SimplePlayer : MonoBehaviour
     void Move()
     {
         // Move Left
-        if (Input.GetKeyDown(KeyCode.A) && currentLane > -1)
+        if (Input.GetKeyDown(KeyCode.A) /*&& currentLane > -1*/)
         {
             if (GameManager.Instance.CheckInputs(Tile.Direction.LEFT))
             {
-                currentLane--;
-                targetPosition = new Vector3(currentLane * laneWidth, transform.position.y, transform.position.z);
+                //// Uncomment for no TP
+                //currentLane--;
+                //targetPosition = new Vector3(currentLane * laneWidth, transform.position.y, transform.position.z);
+                if (currentLane > -1)
+                {
+                    --currentLane;
+                    targetPosition = new Vector3(currentLane * laneWidth, transform.position.y, transform.position.z);
+                }
+                else
+                {
+                    currentLane = 1;
+                    transform.position = rightTP;
+                    targetPosition = new Vector3(currentLane * laneWidth, transform.position.y, transform.position.z);
+                }
             }
         }
 
         // Move Right
-        if (Input.GetKeyDown(KeyCode.D) && currentLane < 1)
+        if (Input.GetKeyDown(KeyCode.D) /*&& currentLane < 1*/)
         {
             if (GameManager.Instance.CheckInputs(Tile.Direction.RIGHT))
             {
-                currentLane++;
-                targetPosition = new Vector3(currentLane * laneWidth, transform.position.y, transform.position.z);
+                //currentLane++;
+                //targetPosition = new Vector3(currentLane * laneWidth, transform.position.y, transform.position.z);
+                if (currentLane < 1)
+                {
+                    ++currentLane;
+                    targetPosition = new Vector3(currentLane * laneWidth, transform.position.y, transform.position.z);
+                }
+                else
+                {
+                    currentLane = -1;
+                    transform.position = leftTP;
+                    targetPosition = new Vector3(currentLane * laneWidth, transform.position.y, transform.position.z);
+                }
             }
         }
 
         // Move Up
-        if (canJump && (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Space)))
+        if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Space))
         {
-            if (GameManager.Instance.CheckInputs(Tile.Direction.UP))
-            {
+            if (GameManager.Instance.CheckInputs(Tile.Direction.UP) && canJump)
+            {                    
                 rb.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
-                canJump = false;
+                canJump = false;    
             }
         }
 
         // Move Down
-        if (canJump && canDuck && Input.GetKeyDown(KeyCode.S))
+        if (canJump && Input.GetKeyDown(KeyCode.S))
         {
             if (GameManager.Instance.CheckInputs(Tile.Direction.DOWN))
             {
+                StopCoroutine("Duck");
                 rb.AddForce(Vector3.down * 100.0f, ForceMode.Impulse);
-                canDuck = false;
+                //canDuck = false;
                 StartCoroutine("Duck");
             }
         }
     }
 
+    // Coroutine
     private IEnumerator Duck()
     {
         transform.localScale = new Vector3(1.0f, 0.5f, 1.0f);
