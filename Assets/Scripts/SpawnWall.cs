@@ -5,6 +5,7 @@ using UnityEngine;
 public class SpawnEnemies : MonoBehaviour
 {
     public GameObject[] wallPrefabs;
+    public Transform spawnPoint;
     public float spawnBegin = 2.0f;
     public float spawnInterval = 2.0f;
     public float secondWallSpawnProbability = 0.33f;
@@ -20,7 +21,8 @@ public class SpawnEnemies : MonoBehaviour
     {
         // Spawn the first wall
         int firstWallIndex = Random.Range(0, wallPrefabs.Length);
-        Instantiate(wallPrefabs[firstWallIndex], wallPrefabs[firstWallIndex].transform.position, wallPrefabs[firstWallIndex].transform.rotation);
+        Vector3 firstWallPosit = new Vector3(wallPrefabs[firstWallIndex].transform.position.x, spawnPoint.position.y, spawnPoint.position.z);
+        Instantiate(wallPrefabs[firstWallIndex], firstWallPosit, wallPrefabs[firstWallIndex].transform.rotation);
 
         // Check if we should spawn a second wall
         if (Random.Range(0f, 1f) < secondWallSpawnProbability)
@@ -34,7 +36,8 @@ public class SpawnEnemies : MonoBehaviour
             }
 
             // Spawn the second wall
-            Instantiate(wallPrefabs[secondWallIndex], wallPrefabs[secondWallIndex].transform.position, wallPrefabs[secondWallIndex].transform.rotation);
+            Vector3 secondWallPosit = new Vector3(wallPrefabs[secondWallIndex].transform.position.x, spawnPoint.position.y, spawnPoint.position.z);
+            Instantiate(wallPrefabs[secondWallIndex], secondWallPosit, wallPrefabs[secondWallIndex].transform.rotation);
         }
     }
 
