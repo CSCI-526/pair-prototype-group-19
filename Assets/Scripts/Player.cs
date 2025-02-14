@@ -7,6 +7,7 @@ public class SimplePlayer : MonoBehaviour
     public float jumpPower = 10f;
     public float laneWidth = 3f;
     public float gravityMultiplier = 2.5f;
+    public int health = 100;
     [SerializeField][Range(10.0f,100.0f)] private float moveTime = 1.0f;
 
     private Rigidbody rb;
@@ -19,6 +20,10 @@ public class SimplePlayer : MonoBehaviour
 
     private Vector3 leftTP;
     private Vector3 rightTP;
+
+
+    [Header("Damage Settings")]
+    [SerializeField] private int damagePerHit = 20;
 
 
     void Start()
@@ -50,6 +55,33 @@ public class SimplePlayer : MonoBehaviour
         if (other.gameObject.CompareTag("Ground"))
             canJump = true;
     }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Obstacle"))
+        {
+            TakeDamage(damagePerHit);
+        }
+    }
+
+    private void TakeDamage(int damage)
+    {
+        health -= damage;
+        
+        // if (health <= 0)
+        // {
+        //     GameOver();
+        // }
+    }
+
+    // private void GameOver()
+    // {
+    //     Debug.Log("Game Over!");
+    //     if(GameManager.Instance != null) GameManager.Instance.GameOver();
+    //     enabled = false; 
+    // }
+
+
 
     void Move()
     {
