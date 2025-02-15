@@ -1,9 +1,11 @@
 using UnityEngine;
 
 using System.Collections;
+using UnityEngine.UI;
 
-public class SimplePlayer : MonoBehaviour
+public class Player : MonoBehaviour
 {
+    //[SerializeField] private GameObject playerBody;
     public float jumpPower = 10f;
     public float laneWidth = 3f;
     public float gravityMultiplier = 2.5f;
@@ -21,13 +23,20 @@ public class SimplePlayer : MonoBehaviour
     private Vector3 leftTP;
     private Vector3 rightTP;
 
+    [Header("PlayerCanvas")]
+    [SerializeField] private Image[] tileIcons;
+    [SerializeField] private Image errorIcon;
+
 
     [Header("Damage Settings")]
     [SerializeField] private int damagePerHit = 20;
 
+    private Coroutine[] iconCoroutines = new Coroutine[4];
+
 
     void Start()
     {
+        //rb = GetComponentInChildren<Rigidbody>();
         rb = GetComponent<Rigidbody>();
         targetPosition = transform.position;
         rb.useGravity = false;
@@ -88,6 +97,7 @@ public class SimplePlayer : MonoBehaviour
         // Move Left
         if (Input.GetKeyDown(KeyCode.A) /*&& currentLane > -1*/)
         {
+            resetIconCoroutines();
             if (GameManager.Instance.CheckInputs(Tile.Direction.LEFT))
             {
                 //// Uncomment for no TP
@@ -105,11 +115,16 @@ public class SimplePlayer : MonoBehaviour
                     targetPosition = new Vector3(currentLane * laneWidth, transform.position.y, transform.position.z);
                 }
             }
+            else
+            {
+                iconCoroutines[2] = StartCoroutine(NoInput(2));
+            }
         }
 
         // Move Right
         if (Input.GetKeyDown(KeyCode.D) /*&& currentLane < 1*/)
         {
+            resetIconCoroutines();
             if (GameManager.Instance.CheckInputs(Tile.Direction.RIGHT))
             {
                 //currentLane++;
@@ -126,21 +141,34 @@ public class SimplePlayer : MonoBehaviour
                     targetPosition = new Vector3(currentLane * laneWidth, transform.position.y, transform.position.z);
                 }
             }
+            else
+            {
+                iconCoroutines[3] = StartCoroutine(NoInput(3));
+            }
         }
 
         // Move Up
         if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Space))
         {
-            if (GameManager.Instance.CheckInputs(Tile.Direction.UP) && canJump)
-            {                    
-                rb.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
-                canJump = false;    
+            resetIconCoroutines();
+            if (GameManager.Instance.CheckInputs(Tile.Direction.UP))
+            {
+                if (canJump)
+                {
+                    rb.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
+                    canJump = false;
+                }    
+            }
+            else
+            {
+                iconCoroutines[0] = StartCoroutine(NoInput(0));
             }
         }
 
         // Move Down
         if (canJump && Input.GetKeyDown(KeyCode.S))
         {
+            resetIconCoroutines();
             if (GameManager.Instance.CheckInputs(Tile.Direction.DOWN))
             {
                 StopCoroutine("Duck");
@@ -148,15 +176,41 @@ public class SimplePlayer : MonoBehaviour
                 //canDuck = false;
                 StartCoroutine("Duck");
             }
+            else
+            {
+                iconCoroutines[1] = StartCoroutine(NoInput(1));
+            }
         }
     }
 
-    // Coroutine
+    // Coroutines
     private IEnumerator Duck()
     {
         transform.localScale = new Vector3(1.0f, 0.5f, 1.0f);
         yield return new WaitForSeconds(duckTimer);
         transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
         canDuck = true;
+    }
+
+    private IEnumerator NoInput(int dir)
+    {
+        errorIcon.enabled = true;
+        tileIcons[dir].enabled = true;
+        yield return new WaitForSeconds(.33f);
+        tileIcons[dir].enabled = false;
+        errorIcon.enabled = false;
+    }
+
+    private void resetIconCoroutines()
+    {
+        for (int i = 0; i < tileIcons.Length - 1; i++)
+        {
+            if (iconCoroutines[i] != null)
+            {
+                StopCoroutine(iconCoroutines[i]);
+            }
+            tileIcons[i].enabled = false;
+        }
+        errorIcon.enabled = false;
     }
 }

@@ -9,11 +9,12 @@ public class ScoreManager : MonoBehaviour
     private static ScoreManager _instance;
     public static ScoreManager Instance { get { return _instance; } }
 
-    [SerializeField]
-    private TextMeshProUGUI scoreText;
-
-    [SerializeField]
-    private TextMeshProUGUI[] leaderboard;
+    [Header("Panels")]
+    [SerializeField] private GameObject scorePanel;
+    [SerializeField] private GameObject leaderboardPanel;
+    [Header("TMPs")]
+    [SerializeField] private TextMeshProUGUI scoreText;
+    [SerializeField] private TextMeshProUGUI[] leaderboardTexts;
 
     [SerializeField]
     private float scoreMultiplier = 1.0f;
@@ -22,9 +23,7 @@ public class ScoreManager : MonoBehaviour
     public float score;
 
     private string scoreString;
-
-
-    private float[] highScores = new float[10];
+    private float[] highScores = new float[5];
 
     // Start is called before the first frame update
     void Awake()
@@ -35,6 +34,23 @@ public class ScoreManager : MonoBehaviour
         {
             _instance = this;
             DontDestroyOnLoad(this.gameObject);
+            // Create PlayerPrefs on game load if doesn't exist, else set highScores array
+            if (!PlayerPrefs.HasKey("Leaderboard1"))
+            {
+                PlayerPrefs.SetFloat("Leaderboard1", 0.0f);
+                PlayerPrefs.SetFloat("Leaderboard2", 0.0f);
+                PlayerPrefs.SetFloat("Leaderboard3", 0.0f);
+                PlayerPrefs.SetFloat("Leaderboard4", 0.0f);
+                PlayerPrefs.SetFloat("Leaderboard5", 0.0f);
+            }
+            else
+            {
+                highScores[0] = PlayerPrefs.GetFloat("Leaderboard1");
+                highScores[1] = PlayerPrefs.GetFloat("Leaderboard2");
+                highScores[2] = PlayerPrefs.GetFloat("Leaderboard3");
+                highScores[3] = PlayerPrefs.GetFloat("Leaderboard4");
+                highScores[4] = PlayerPrefs.GetFloat("Leaderboard5");
+            }
         }
     }
 
@@ -47,10 +63,62 @@ public class ScoreManager : MonoBehaviour
         }
     }
 
-    void openLeaderboard()
+    void updateHighScores()
     {
-
+        //bool added = false;
+        for (int i = 0; i < highScores.Length - 1; i++)
+        {
+            if (score > highScores[i])
+            {
+                highScores[i] = score;
+                //added = true;
+                break;
+            }
+        }
     }
 
+    void updatePlayerPrefs()
+    {
+        PlayerPrefs.SetFloat("Leaderboard1", highScores[0]);
+        PlayerPrefs.SetFloat("Leaderboard2", highScores[1]);
+        PlayerPrefs.SetFloat("Leaderboard3", highScores[2]);
+        PlayerPrefs.SetFloat("Leaderboard4", highScores[3]);
+        PlayerPrefs.SetFloat("Leaderboard5", highScores[4]);
+    }
 
+    void updateLeaderboard()
+    {
+        updateHighScores();
+        updatePlayerPrefs();
+        for (int i = 0; i < leaderboardTexts.Length - 1; i++)
+        {
+            leaderboardTexts[i].text = "{i+1}. " + highScores[i].ToString("000000000");
+        }
+    }
+
+    public void openScorePanel()
+    {
+        scorePanel.SetActive(true);
+    }
+
+    public void closeScorePanel()
+    {
+        scorePanel.SetActive(false);
+    }
+
+    public void openLeaderboard()
+    {
+        leaderboardPanel.SetActive(true);
+    }
+    public void closeLeaderboard()
+    {
+        leaderboardPanel.SetActive(true);
+        scoreText.gameObject.SetActive(false);
+    }
+
+    // Save PlayerPrefs on game end
+    private void OnDisable()
+    {
+        PlayerPrefs.Save();
+    }
 }

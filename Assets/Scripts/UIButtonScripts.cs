@@ -27,4 +27,9 @@ public class UIButtonScripts : MonoBehaviour
         Application.Quit();
 #endif
     }
+
+    public void DeleteScores()
+    {
+        PlayerPrefs.DeleteAll();
+    }
 }
