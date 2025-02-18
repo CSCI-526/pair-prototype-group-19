@@ -10,11 +10,13 @@ public class SpawnEnemies : MonoBehaviour
     public float spawnInterval = 2.0f;
     public float secondWallSpawnProbability = 0.33f;
 
+    [SerializeField] private float time;
+
     // Start is called before the first frame update
     void Start()
     {
         // Starting from spawnBegin seconds, spawn wall every spawnInterval seconds.
-        InvokeRepeating("SpawnWall", spawnBegin, spawnInterval);
+        //InvokeRepeating("SpawnWall", spawnBegin, spawnInterval);
     }
 
     void SpawnWall()
@@ -45,5 +47,11 @@ public class SpawnEnemies : MonoBehaviour
     void Update()
     {
         // Add any update logic here if needed
+        time += Time.deltaTime;
+        if (time > spawnInterval)
+        {
+            SpawnWall();
+            time = 0.0f;
+        }
     }
 }

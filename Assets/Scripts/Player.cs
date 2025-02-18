@@ -18,7 +18,7 @@ public class Player : MonoBehaviour
     [SerializeField][Range(0.0f, 5.0f)] private float duckTimer = 1.0f;
 
     [SerializeField] private int currentLane = 0;
-    private Vector3 targetPosition;
+    [SerializeField] private Vector3 targetPosition;
 
     private Vector3 leftTP;
     private Vector3 rightTP;
@@ -36,7 +36,7 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        //rb = GetComponentInChildren<Rigidbody>();
+        GameManager.Instance.setGameSpeed(1.0f);
         rb = GetComponent<Rigidbody>();
         targetPosition = transform.position;
         rb.useGravity = false;
@@ -203,7 +203,7 @@ public class Player : MonoBehaviour
 
     private void resetIconCoroutines()
     {
-        for (int i = 0; i < tileIcons.Length - 1; i++)
+        for (int i = 0; i < tileIcons.Length; i++)
         {
             if (iconCoroutines[i] != null)
             {
@@ -212,5 +212,10 @@ public class Player : MonoBehaviour
             tileIcons[i].enabled = false;
         }
         errorIcon.enabled = false;
+    }
+
+    public int getHealth()
+    {
+        return health;
     }
 }

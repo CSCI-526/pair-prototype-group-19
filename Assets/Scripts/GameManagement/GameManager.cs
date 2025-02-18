@@ -26,12 +26,14 @@ public class GameManager : MonoBehaviour
 
     private Tile.Direction directions;
 
-    public UnityEvent updateInputs;
+    //public UnityEvent updateInputs;
+    [SerializeField] private Player player;
 
     [SerializeField]
     private bool debugMode = false;
 
     public bool isPlaying = false;
+    public int sceneIndex = 0;
 
     void Awake()
     {
@@ -54,10 +56,15 @@ public class GameManager : MonoBehaviour
         if (SceneManager.GetActiveScene().buildIndex == 1)
         {
             isPlaying = true;
+            if (inputPanel == null) inputPanel = GameObject.Find("InputPanel");
+            if (player == null) player = GameObject.Find("Player").GetComponent<Player>();
+            tileInputs = new List<int>();
+            sceneIndex = 1;
         }
         else
         {
             isPlaying = false;
+            sceneIndex = 0;
         }
     }
 
@@ -77,13 +84,21 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         
-        if (inputPanel == null && SceneManager.GetActiveScene().buildIndex != 0)
+        if (SceneManager.GetActiveScene().buildIndex == 1)
         {
-            inputPanel = GameObject.Find("InputPanel");
+            //if (inputPanel == null) inputPanel = GameObject.Find("InputPanel");
+            //if (player == null) player = GameObject.Find("Player").GetComponent<Player>();
         }
         if (debugMode)
         {
             DebugAddInputs();
+        }
+        if (player != null && player.getHealth() <= 0)
+        {
+            if (isPlaying)
+            {
+                GameOverSequence();
+            }
         }
     }
 
@@ -152,6 +167,14 @@ public class GameManager : MonoBehaviour
     public void loadSceneByIndex(int index)
     {
         SceneManager.LoadScene(index);
+    }
+
+    private void GameOverSequence()
+    {
+        setGameSpeed(0.0f);
+        isPlaying = false;
+        ScoreManager.Instance.openLeaderboard();
+        Debug.Log("Debug: GameOver");
     }
 
     #endregion

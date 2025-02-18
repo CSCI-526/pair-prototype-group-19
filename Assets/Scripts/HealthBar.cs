@@ -1,21 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class MoveBack : MonoBehaviour
+public class HealthBar : MonoBehaviour
 {
-    public float speed = 40.0f;
-
+    [SerializeField] private Player player;
     // Start is called before the first frame update
+
+    private Image bar;
+
     void Start()
     {
-        
+        bar = this.GetComponent<Image>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        // Keep the walls moving towards player once spawned
-        transform.Translate(Vector3.back * Time.deltaTime * speed);
+        bar.fillAmount = (float) player.getHealth()/100;
     }
 }

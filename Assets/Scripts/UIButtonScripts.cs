@@ -19,6 +19,11 @@ public class UIButtonScripts : MonoBehaviour
         GameManager.Instance.setGameSpeed(1.0f);
     }
 
+    public void OpenLeaderboard()
+    {
+        ScoreManager.Instance.openLeaderboard();
+    }
+
     public void Quit()
     {
 #if UNITY_EDITOR
