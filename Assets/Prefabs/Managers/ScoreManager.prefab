@@ -1097,7 +1097,7 @@ MonoBehaviour:
   - {fileID: 2068454832660647315}
   - {fileID: 3761614803488656673}
   - {fileID: 9154983711743953708}
-  scoreMultiplier: 1
+  scoreMultiplier: 5
   score: 0
 --- !u!1 &6470563852945061382
 GameObject:

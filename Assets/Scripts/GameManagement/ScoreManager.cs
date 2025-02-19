@@ -17,7 +17,7 @@ public class ScoreManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI[] leaderboardTexts;
 
     [SerializeField]
-    private float scoreMultiplier = 1.0f;
+    private float scoreMultiplier = 5.0f;
 
     // Current game score
     public float score;
@@ -62,7 +62,7 @@ public class ScoreManager : MonoBehaviour
         }
         if (GameManager.Instance.isPlaying)
         {
-            score += Time.fixedDeltaTime * scoreMultiplier;
+            score += Time.deltaTime * scoreMultiplier;
             scoreText.text = "Score: " + score.ToString("000000000");
         }
         else
