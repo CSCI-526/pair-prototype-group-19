@@ -1,13 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Tile : MonoBehaviour
 {
     public enum Direction { UP, DOWN, LEFT, RIGHT, NULL };
     //[SerializeField] private Sprite icon;
     [SerializeField] private Direction direction;
-    [SerializeField] private Vector2 position;
+    [SerializeField] private Button button;
+    public Vector2 position;
+    
 
     public Tile(Direction direction)
     {
@@ -21,6 +24,11 @@ public class Tile : MonoBehaviour
         //{
         //    position = new Vector2(0, 0);
         //}
+    }
+
+    private void Start()
+    {
+        button.onClick.AddListener(() => Board.Instance.Select(this));
     }
     
     public Direction getDirection() {  return direction; }

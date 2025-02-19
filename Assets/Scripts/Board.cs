@@ -22,8 +22,21 @@ public class Board : MonoBehaviour
     //Calculate distributions of tiles to ensure a mostly uniform distribution
     private float[] distributions = new float[5];
 
+    private readonly List<Tile> _selection = new List<Tile>();
+
+    public static Board Instance { get; private set; }
+
     void Awake()
     {
+        if (Instance != null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(Board.Instance);
+            Instance = this;
+        }
         rt = this.GetComponent<RectTransform>();
         tileHorizontalPadding = rt.rect.width / numCol;
         tileVerticalPadding = rt.rect.height / numRow;
@@ -53,5 +66,16 @@ public class Board : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void Select(Tile tile)
+    {
+        if (!_selection.Contains(tile)) _selection.Add(tile);
+
+        if (_selection.Count < 2) return;
+
+        Debug.Log($"Selected tiles at ({_selection[0].position[0]}, {_selection[0].position[1]}) and ({_selection[1].position[0]},{_selection[1].position[1]})");
+
+        _selection.Clear();
     }
 }
