@@ -763,6 +763,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 200
       objectReference: {fileID: 0}
+    - target: {fileID: 3704669978086093584, guid: 277d58d4c3a75412e9be333789f0775d, type: 3}
+      propertyPath: spawnInterval
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 9169141229489686834, guid: 277d58d4c3a75412e9be333789f0775d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1438,7 +1442,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2583030833123112607, guid: 976b5897e1f4a5c42a727857baee1b74, type: 3}
       propertyPath: possibleTiles.Array.size
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2583030833123112607, guid: 976b5897e1f4a5c42a727857baee1b74, type: 3}
       propertyPath: possibleTiles.Array.data[5]

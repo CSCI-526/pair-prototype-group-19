@@ -1385,7 +1385,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: TITLE HERE
+  m_text: SPLIT <color=red>FOCUS</color>
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1613,8 +1613,12 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8437214234652890323, guid: ddf604db4ffc9c7488f6ad0ea0032cc8, type: 3}
+      propertyPath: debugMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8437214234652890323, guid: ddf604db4ffc9c7488f6ad0ea0032cc8, type: 3}
       propertyPath: availableTiles.Array.size
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8437214234652890323, guid: ddf604db4ffc9c7488f6ad0ea0032cc8, type: 3}
       propertyPath: availableTiles.Array.data[4]

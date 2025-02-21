@@ -42,6 +42,7 @@ public class Player : MonoBehaviour
         rb.useGravity = false;
         leftTP = new Vector3(-2 * laneWidth, transform.position.y, transform.position.z);
         rightTP = new Vector3(2 * laneWidth, transform.position.y, transform.position.z);
+        if (GameManager.Instance.getDebugState()) damagePerHit = 0;
     }
 
     void Update()

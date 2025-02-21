@@ -5,7 +5,6 @@ using UnityEngine.Events;
 
 public class InputPanel : MonoBehaviour
 {
-    // Start is called before the first frame update
 
     [SerializeField]
     private List<GameObject> inputs;

@@ -150,6 +150,8 @@ public class GameManager : MonoBehaviour
     //Get the current timeScale as stored/exposed by the GameManager
     public float getGameSpeed() { return gameSpeed; }
 
+    public bool getDebugState() { return debugMode; }
+
     #endregion
 
     #region Set Functions

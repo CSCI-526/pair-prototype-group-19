@@ -89,9 +89,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cfb53d42ac6139439ca1f2597fe6bef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  direction: 4
   button: {fileID: 3725198686637001356}
-  position: {x: 0, y: 0}
+  direction: 5
+  x: 0
+  y: 0
 --- !u!114 &3725198686637001356
 MonoBehaviour:
   m_ObjectHideFlags: 0
