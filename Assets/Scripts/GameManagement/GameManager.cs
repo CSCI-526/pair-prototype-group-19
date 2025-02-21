@@ -49,6 +49,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         Debug.Log("GameManager Initialized");
+        Application.targetFrameRate = 120;
     }
 
     void OnPlaySceneLoaded(Scene scene, LoadSceneMode mode)

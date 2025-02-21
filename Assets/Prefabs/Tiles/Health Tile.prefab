@@ -9,16 +9,20 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 37265938708512424, guid: 8da8da57538c9fa48a6f3eb529fef83d, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 8e1e076bf753abd43a501561574413c4, type: 3}
-    - target: {fileID: 37265938708512424, guid: 8da8da57538c9fa48a6f3eb529fef83d, type: 3}
-      propertyPath: m_Color.b
+      propertyPath: m_Type
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 37265938708512424, guid: 8da8da57538c9fa48a6f3eb529fef83d, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 5d24bf6d24aa1a94b8a8432922417dfa, type: 3}
+    - target: {fileID: 37265938708512424, guid: 8da8da57538c9fa48a6f3eb529fef83d, type: 3}
+      propertyPath: m_Color.b
+      value: 0.51886785
+      objectReference: {fileID: 0}
+    - target: {fileID: 37265938708512424, guid: 8da8da57538c9fa48a6f3eb529fef83d, type: 3}
       propertyPath: m_Color.g
-      value: 1
+      value: 0.51886785
       objectReference: {fileID: 0}
     - target: {fileID: 37265938708512424, guid: 8da8da57538c9fa48a6f3eb529fef83d, type: 3}
       propertyPath: m_Color.r
@@ -34,7 +38,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5308593452528246273, guid: 8da8da57538c9fa48a6f3eb529fef83d, type: 3}
       propertyPath: m_Name
-      value: Up Tile
+      value: Health Tile
       objectReference: {fileID: 0}
     - target: {fileID: 7448904574981202004, guid: 8da8da57538c9fa48a6f3eb529fef83d, type: 3}
       propertyPath: m_Pivot.x

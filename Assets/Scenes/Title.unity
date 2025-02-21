@@ -1612,6 +1612,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8437214234652890323, guid: ddf604db4ffc9c7488f6ad0ea0032cc8, type: 3}
+      propertyPath: availableTiles.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8437214234652890323, guid: ddf604db4ffc9c7488f6ad0ea0032cc8, type: 3}
+      propertyPath: availableTiles.Array.data[4]
+      value: 
+      objectReference: {fileID: 8579025137865172213, guid: 665e89c9aa5f86048b6dd1abeacc11a4, type: 3}
     - target: {fileID: 8932233714842240464, guid: ddf604db4ffc9c7488f6ad0ea0032cc8, type: 3}
       propertyPath: m_Name
       value: GameManager

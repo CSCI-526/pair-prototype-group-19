@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class Board : MonoBehaviour
@@ -77,5 +78,10 @@ public class Board : MonoBehaviour
         Debug.Log($"Selected tiles at ({_selection[0].position[0]}, {_selection[0].position[1]}) and ({_selection[1].position[0]},{_selection[1].position[1]})");
 
         _selection.Clear();
+    }
+
+    public async Task Swap(Tile tile1, Tile tile2)
+    {
+
     }
 }

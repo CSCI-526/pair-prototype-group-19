@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class Tile : MonoBehaviour
 {
-    public enum Direction { UP, DOWN, LEFT, RIGHT, NULL };
+    public enum Direction { UP, DOWN, LEFT, RIGHT, HEALTH, NULL };
     //[SerializeField] private Sprite icon;
     [SerializeField] private Direction direction;
     [SerializeField] private Button button;
