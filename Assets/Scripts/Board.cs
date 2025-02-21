@@ -255,7 +255,7 @@ public class Board : MonoBehaviour
                             //newTile.setPosition(x, y);
                             //boardTiles[x][y] = newTile;
                             StartCoroutine(addTile(neighbor));
-                            Destroy(neighbor.gameObject);
+                            
                         }
                     }
 
@@ -272,7 +272,6 @@ public class Board : MonoBehaviour
                             //newTile.setPosition(x, y);
                             //boardTiles[x][y] = newTile;
                             StartCoroutine(addTile(neighbor));
-                            Destroy(neighbor.gameObject);
                         }
                     }
 
@@ -329,6 +328,8 @@ public class Board : MonoBehaviour
             yield return null;
         }
 
+        Destroy(tile.gameObject);
+
         yield return null;
     }
 
@@ -355,7 +356,6 @@ public class Board : MonoBehaviour
             {
                 var tile = boardTiles[i][j];
                 StartCoroutine(addTile(tile));
-                Destroy(tile.gameObject);
             }
         }
         asyncInProgress = false;
